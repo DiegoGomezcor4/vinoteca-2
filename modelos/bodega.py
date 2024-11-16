@@ -1,7 +1,18 @@
 import json
+from modelos.entidadvineria import EntidadVineria
+from vinoteca import Vinoteca
 
 
 class Bodega:
+    
+    #agregando init:
+    def __init__(self, id: str, nombre: str):
+        super().__init__(id, nombre)
+        
+    #agregando obenterVinos
+    def obtenerVinos(self) -> list:
+        # obtiene todos los vinos asociados a esta bodega
+        pass
 
     def __repr__(self):
         return json.dumps(self.convertirAJSON())
