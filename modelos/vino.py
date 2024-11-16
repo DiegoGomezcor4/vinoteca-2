@@ -1,7 +1,13 @@
 import json
+from vinoteca import Vinoteca 
+from entidadvineria import EntidadVineria 
 
 
-class Vino:
+class Vino(EntidadVineria):
+    
+    # Agregando init
+    def __init__(self, id: str, nombre: str, bodega, cepas, partidas):
+        super().__init__(id, nombre)
 
     def __repr__(self):
         return json.dumps({"nombre": self.obtenerNombre()})
