@@ -30,26 +30,30 @@ class Vinoteca:
             if orden == "nombre":
                 bodegas = sorted(bodegas, key=lambda bodega: bodega.nombre, reverse=reverso)
             elif orden == "vinos":
-                pass  # completar
-        pass  # completar
+                bodegas = sorted(bodegas, key=lambda bodega: len(bodega.vinos), reverse=reverso)
+        return bodegas
 
     def obtenerCepas(orden=None, reverso=False):
+        """Devuelve una lista de cepas ordenada según el parámetro 'orden'."""
+        cepas = Vinoteca.cepas
         if isinstance(orden, str):
             if orden == "nombre":
-                pass  # completar
-        pass  # completar
+                cepas = sorted(cepas, key=lambda cepa: cepa.nombre, reverse=reverso)
+        return cepas
 
     def obtenerVinos(anio=None, orden=None, reverso=False):
+        """Devuelve una lista de vinos filtrada por año (si se proporciona) y ordenada según 'orden'."""
+        vinos = Vinoteca.vinos
         if isinstance(anio, int):
-            pass  # completar
+            vinos = [vino for vino in vinos if vino.anio == anio]
         if isinstance(orden, str):
             if orden == "nombre":
-                pass  # completar
+                vinos = sorted(vinos, key=lambda vino: vino.nombre, reverse=reverso)
             elif orden == "bodega":
-                pass  # completar
+                vinos = sorted(vinos, key=lambda vino: vino.bodega.nombre, reverse=reverso)
             elif orden == "cepas":
-                pass  # completar
-        pass  # completar
+                vinos = sorted(vinos, key=lambda vino: [cepa.nombre for cepa in vino.cepas], reverse=reverso)
+        return vinos
 
     def buscarBodega(id):
         pass  # completar
