@@ -56,16 +56,43 @@ class Vinoteca:
         return vinos
 
     def buscarBodega(id):
-        pass  # completar
+        """Busca una bodega por su ID y devuelve la referencia si la encuentra."""
+        for bodega in Vinoteca.bodegas:
+            if bodega.id == id:
+                return bodega
+        return None
 
     def buscarCepa(id):
-        pass  # completar
+        """Busca una cepa por su ID y devuelve la referencia si la encuentra."""
+        for cepa in Vinoteca.cepas:
+            if cepa.id == id:
+                return cepa
+        return None
 
     def buscarVino(id):
-        pass  # completar
+        """Busca un vino por su ID y devuelve la referencia si lo encuentra."""
+        for vino in Vinoteca.vinos:
+            if vino.id == id:
+                return vino
+        return None
 
     def __parsearArchivoDeDatos():
-        pass  # completar
+        """Lee el archivo JSON y retorna un diccionario con los datos."""
+        if not os.path.exists(Vinoteca.archivoDeDatos):
+            return {}
+        with open(Vinoteca.archivoDeDatos, 'r') as archivo:
+            return json.load(archivo)
 
     def __convertirJsonAListas(lista):
-        pass  # completar
+        """Convierte los datos del JSON en objetos correspondientes."""
+        # Convertir bodegas
+        if 'bodegas' in lista:
+            Vinoteca.bodegas = [Bodega(**bodega) for bodega in lista['bodegas']]
+        
+        # Convertir cepas
+        if 'cepas' in lista:
+            Vinoteca.cepas = [Cepa(**cepa) for cepa in lista['cepas']]
+        
+        # Convertir vinos
+        if 'vinos' in lista:
+            Vinoteca.vinos = [Vino(**vino) for vino in lista['vinos']]
