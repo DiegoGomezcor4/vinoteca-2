@@ -3,7 +3,7 @@ from modelos.entidadvineria import EntidadVineria
 from vinoteca import Vinoteca
 
 
-class Bodega:
+class Bodega(EntidadVineria):
     
     #agregando init:
     def __init__(self, id: str, nombre: str):
@@ -12,7 +12,18 @@ class Bodega:
     #agregando obenterVinos
     def obtenerVinos(self) -> list:
         # obtiene todos los vinos asociados a esta bodega
-        pass
+        return [Vinoteca.buscarVino(vino_id) for vino_id in self.vinos]
+
+    # agregando obtenerCepas
+    def obtenerCepas(self):
+        """Obtiene las cepas asociadas a esta bodega a través de los vinos desde la clase Vinoteca."""
+        cepas = set()  # Usamos un set para evitar duplicados
+        for vino_id in self.vinos:
+            vino = Vinoteca.buscarVino(vino_id)
+            if vino:
+                cepas.update(vino.cepas)  # Añadimos los IDs de cepas del vino
+        return [Vinoteca.buscarCepa(cepa_id) for cepa_id in cepas]
+
 
     def __repr__(self):
         return json.dumps(self.convertirAJSON())
