@@ -1,0 +1,89 @@
+Guia del trabajo:
+
+1 - Agregar cosas a los modelos
+2 - Recursos: no toca!!
+3 - Vinoteca Completar: Definir que van a hacer las cosultas obtenerBodegas: * Retorna lista de objetos de clase obtenerBodegas
+                                                                            * Igual para cepas y vinos
+                                                                    
+        Buscar: Recibe un id y retorna un unico objeto de la lista de cepas, vinos y obtenerBodegas
+
+Cuando esta todo completo hay que ejecutar el main
+
+4 - Consulta recuperar vinos por año y a la vez ordenarlos
+    Ademas ordenarlos por algun parametro Reverso = si --> orden alfavetico inverso
+
+Que hacer:
+1) Codificar las clases en modelos, agregar constructores y todos los metodos obtener y establecer
+
+2) Crear entidad vineria como clase abstracta, ver lo del metodo abstracto
+    sobrescribir el metodo __eq__
+
+3) Bodega: Extiende de entidad vineria tiene los atributos de instancia de entidad vineria pero agrega 4 consultas
+    2 ya existen, no tocar
+    Agregar constructor, obtenerVinos, obtenerCepas
+
+4) Cepa: Extender, agregar constructor, 
+        agregar consulta obtenerVinos: trae todos los vinos de una Bodega
+
+5) Vino: Agrega los atributos de instancia: Bodegas, cepas, partidas
+        tiene un super constructor  
+        todos los comandos establescer y obtener
+        obtenerBodega: va a devolver 1 objeto del tipo Bodega
+        obtnerCepas: trae todos los objetos del tipo cepa en los que se ofrece ese vinos
+
+6) Clase vinoteca = base de datos
+    parcearArchivoDeDatos: * abrir el archivo 
+                            * cargar la informacion en un diccionario
+                            * cerrar el archivo
+                            * retornar referencia a ese diccionario
+                            * Devuelve un gran objeto representando todo el json 
+                            * se almacena en una variable Datos que es pasada como parametro a convetirJsonAListas
+
+    convetirJsonAListas: crea tres lista de objetos bodegas cepas y vinos
+            for bodega in lista["bodega"]:
+                Vinoteca.__bodegas.append(Bodega(bodega["id"],..."otros parametros para inicializar el objeto"))
+
+        * es una lista de id y nombres a partir de la cual creo mis objetos, lo mismo para cepas y vinos
+
+7) Dejo toda la informacion en los tres atributos de clase __bodegas[], __cepas[], __vinos[]
+    * vinoteca tiene atributos y metodos de clase
+
+    def buscarBodega(id)
+        b = none
+        for bodega in Vinoteca.__bodegas:
+            if bodega.obenerid() == id:
+                b = bodega
+                break
+        return b
+
+8) en la clase vino
+
+    from vinoteca import Vinoteca
+
+    def obtenerBodega(self) -> Bodega:
+        bodega = Vinoteca.buscarBodega(self.__id)
+        return bodega
+
+    from modelos.cepa import Cepa
+
+    def obenerCepas(self) -> Cepa:
+        cepasTodas = Vinoteca.obenerCepa()
+        for cepa in cepasTodas:
+            for cepavino in self.__cepas:
+                pass " filtrar cuales cepas corresponden a ese vino y cuales no, agregar a la lista y retornar 
+                        lista de objetos cepa"
+        return cepa
+
+Resumen: 
+
+    Clae vinoteca: - lee el archivo
+                    - completa las tres listas
+                    - consultas obtener y buscar sobre esas listas
+    
+    luego se usan esas consultas en las clases que tenemos que Crear
+
+        cepas pide a vinoteca, vinoteca devuelve la informacion
+
+        def obetenerBodega(self) -> Bodega:
+            bodega = Vinoteca.buscarBodega(self_bodega)
+            return bodega
