@@ -47,7 +47,14 @@ class Cepa(EntidadVineria):
         # Obtiene todos los vinos desde Vinoteca
         vinos = Vinoteca.obtenerVinos()
         # Filtra los vinos que incluyen esta cepa por su ID
-        return [vino for vino in vinos if self.obtenerId() in [cepa.obtenerId() for cepa in vino.cepas]]
+        vinos_de_la_cepa = []
+        for vino in vinos:
+            cepas = vino.obtenerCepas() # obtiene una lista de objetos cepas, pertenecientes a ese vino
+            for cepa in cepas: #recorre las cepas del vino
+                if cepa == self: # si la cepa del vino es igual a la cepa en la que estamos
+                    vinos_de_la_cepa.append(vino) # agrega ese vino a la lista de vinos de la cepa
+                    
+        return vinos_de_la_cepa
 
 
     def __mapearVinos(self):
