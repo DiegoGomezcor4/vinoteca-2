@@ -41,19 +41,33 @@ class Vinoteca:
                 cepas = sorted(cepas, key=lambda cepa: cepa.nombre, reverse=reverso)
         return cepas
 
-    def obtenerVinos(anio=None, orden=None, reverso=False):
-        """Devuelve una lista de vinos filtrada por año (si se proporciona) y ordenada según 'orden'."""
+    def obtenerVinos(anio=None, orden=None, reverso=False, bodega_id=None):
+        """Devuelve una lista de vinos filtrada por año (si se proporciona) y ordenada según 'orden', o por bodega si se proporciona."""
         vinos = Vinoteca.__vinos
+        vinos_filtrados = []  # Inicialización de la lista
+
+        # Si se proporciona un bodega_id, filtrar los vinos por bodega
+        if bodega_id:
+            vinos_filtrados = [vino for vino in vinos if vino.obtenerBodega().obtenerId() == bodega_id]
+        else:
+            vinos_filtrados = vinos
+        
+        # Filtrar por año si se proporciona
         if isinstance(anio, int):
-            vinos = [vino for vino in vinos if vino._partidas == anio]
+            vinos_filtrados = [vino for vino in vinos_filtrados if anio in vino.obtenerPartidas()]
+
+        # Ordenar según el criterio especificado (si se proporciona)
         if isinstance(orden, str):
             if orden == "nombre":
-                vinos = sorted(vinos, key=lambda vino: vino._nombre, reverse=reverso)
+                vinos_filtrados = sorted(vinos_filtrados, key=lambda vino: vino.obtenerNombre(), reverse=reverso)
             elif orden == "bodega":
-                vinos = sorted(vinos, key=lambda vino: vino._bodega._nombre, reverse=reverso)
+                vinos_filtrados = sorted(vinos_filtrados, key=lambda vino: vino.obtenerBodega().obtenerNombre(), reverse=reverso)
             elif orden == "cepas":
-                vinos = sorted(vinos, key=lambda vino: [cepa._nombre for cepa in vino.cepas], reverse=reverso)
-        return vinos
+                vinos_filtrados = sorted(vinos_filtrados, key=lambda vino: [cepa.obtenerNombre() for cepa in vino.obtenerCepas()], reverse=reverso)
+
+        return vinos_filtrados
+
+
 
     def buscarBodega(id):
         """Busca una bodega por su ID y devuelve la referencia si la encuentra."""
