@@ -15,9 +15,7 @@ class Cepa(EntidadVineria):
         return json.dumps({"nombre": self.obtenerNombre()})
 
     def convertirAJSON(self):
-        """convierte la cepa a un formato JSON simple
-        Return: Diccionario conlos datos basicos de la cepa
-        """
+        """convierte la cepa a un formato JSON simple"""
         return {
             "id": self.obtenerId(),
             "nombre": self.obtenerNombre(),
@@ -26,9 +24,7 @@ class Cepa(EntidadVineria):
 
     def convertirAJSONFull(self):
         """
-        Convierte la cepa a un formato JSON completo, incluyendo sus vinos.
-        
-        :return: Diccionario con los datos completos de la cepa y sus vinos asociados.
+        Convierte la cepa a un formato JSON completo, incluyendo sus vinos
         """
         return {
             "id": self.obtenerId(),
@@ -41,8 +37,6 @@ class Cepa(EntidadVineria):
         from vinoteca import Vinoteca
         """
         Obtiene todos los vinos que utilizan esta cepa.
-        
-        :return: Lista de objetos Vino asociados a esta cepa.
         """
         # Obtiene todos los vinos desde Vinoteca
         vinos = Vinoteca.obtenerVinos()
@@ -58,11 +52,6 @@ class Cepa(EntidadVineria):
 
 
     def __mapearVinos(self):
-        """
-        Mapea los vinos asociados para obtener su nombre y bodega.
-        
-        :return: Lista de cadenas con la información de cada vino.
-        """
         vinos = self.obtenerVinos()
         vinosMapa = map(
             lambda a: a.obtenerNombre()

@@ -99,21 +99,16 @@ class Vinoteca:
 
     def __convertirJsonAListas(datos):
         """Convierte los datos del JSON en objetos correspondientes."""
-        # Convertir bodegas
-        #if 'bodega' in lista:
-         #   Vinoteca.__bodegas = [Bodega(**bodega) for bodega in lista['bodega']]
-            
+        
+        # Convertir bodegas  
         for bodega in datos["bodegas"]:
             Vinoteca.__bodegas.append(Bodega(bodega["id"],bodega["nombre"]))
         
         # Convertir cepas
         for cepa in datos["cepas"]:
             Vinoteca.__cepas.append(Cepa(cepa["id"],cepa["nombre"]))
-        #if 'cepas' in lista:
-         #   Vinoteca.__cepas = [Cepa(**cepa) for cepa in lista['cepas']]
-        
+            
         # Convertir vinos
         for vino in datos["vinos"]:
             Vinoteca.__vinos.append(Vino(vino["id"],vino["nombre"],vino["bodega"],vino["cepas"],vino["partidas"]))
-        #if 'vinos' in lista:
-         #   Vinoteca.__vinos = [Vino(**vino) for vino in lista['vinos']]
+       
