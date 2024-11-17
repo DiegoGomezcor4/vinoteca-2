@@ -94,7 +94,7 @@ class Vinoteca:
         """Lee el archivo JSON y retorna un diccionario con los datos."""
         if not os.path.exists(Vinoteca.__archivoDeDatos):
             return {}
-        with open(Vinoteca.__archivoDeDatos, 'r') as archivo:
+        with open(Vinoteca.__archivoDeDatos, 'r', encoding='utf-8') as archivo:
             return json.load(archivo)
 
     def __convertirJsonAListas(datos):
