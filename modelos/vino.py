@@ -1,6 +1,6 @@
 import json
-from vinoteca import Vinoteca 
-from entidadvineria import EntidadVineria 
+
+from modelos.entidadvineria import EntidadVineria 
 
 
 class Vino(EntidadVineria):
@@ -24,10 +24,12 @@ class Vino(EntidadVineria):
         
     # consultas
     def obtenerBodega(self):
+        from vinoteca import Vinoteca 
         # Utiliza el servicio buscarBodega para obtener el objeto de tipo Bodega
         return Vinoteca.buscarBodega(self._bodega)
 
     def obtenerCepas(self):
+        from vinoteca import Vinoteca 
         # Utiliza el servicio buscarCepa para obtener objetos de tipo Cepa
         return [Vinoteca.buscarCepa(cepa) for cepa in self._cepas]
 

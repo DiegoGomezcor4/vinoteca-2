@@ -19,3 +19,4 @@ class EntidadVineria(ABC):
         if isinstance(other, EntidadVineria):
             return self._id == other._id
         return False
+    

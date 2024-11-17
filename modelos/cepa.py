@@ -1,6 +1,6 @@
 import json
-from entidadvineria import EntidadVineria
-from vinoteca import Vinoteca
+from modelos.entidadvineria import EntidadVineria
+
 
 
 class Cepa(EntidadVineria): 
@@ -38,6 +38,7 @@ class Cepa(EntidadVineria):
         
     # Agregando obtenerVinos
     def obtenerVinos(self):
+        from vinoteca import Vinoteca
         """
         Obtiene todos los vinos que utilizan esta cepa.
         

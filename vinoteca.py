@@ -28,14 +28,14 @@ class Vinoteca:
         bodegas = Vinoteca.__bodegas
         if isinstance(orden, str):
             if orden == "nombre":
-                bodegas = sorted(bodegas, key=lambda bodega: bodega.nombre, reverse=reverso)
+                bodegas = sorted(bodegas, key=lambda bodega: bodega._nombre, reverse=reverso)
             elif orden == "vinos":
-                bodegas = sorted(bodegas, key=lambda bodega: len(bodega.vinos), reverse=reverso)
+                bodegas = sorted(bodegas, key=lambda bodega: len(bodega._vinos), reverse=reverso)
         return bodegas
 
     def obtenerCepas(orden=None, reverso=False):
         """Devuelve una lista de cepas ordenada según el parámetro 'orden'."""
-        cepas = Vinoteca.cepas
+        cepas = Vinoteca.__cepas
         if isinstance(orden, str):
             if orden == "nombre":
                 cepas = sorted(cepas, key=lambda cepa: cepa.nombre, reverse=reverso)
@@ -43,56 +43,63 @@ class Vinoteca:
 
     def obtenerVinos(anio=None, orden=None, reverso=False):
         """Devuelve una lista de vinos filtrada por año (si se proporciona) y ordenada según 'orden'."""
-        vinos = Vinoteca.vinos
+        vinos = Vinoteca.__vinos
         if isinstance(anio, int):
-            vinos = [vino for vino in vinos if vino.anio == anio]
+            vinos = [vino for vino in vinos if vino._partidas == anio]
         if isinstance(orden, str):
             if orden == "nombre":
-                vinos = sorted(vinos, key=lambda vino: vino.nombre, reverse=reverso)
+                vinos = sorted(vinos, key=lambda vino: vino._nombre, reverse=reverso)
             elif orden == "bodega":
-                vinos = sorted(vinos, key=lambda vino: vino.bodega.nombre, reverse=reverso)
+                vinos = sorted(vinos, key=lambda vino: vino._bodega._nombre, reverse=reverso)
             elif orden == "cepas":
-                vinos = sorted(vinos, key=lambda vino: [cepa.nombre for cepa in vino.cepas], reverse=reverso)
+                vinos = sorted(vinos, key=lambda vino: [cepa._nombre for cepa in vino.cepas], reverse=reverso)
         return vinos
 
     def buscarBodega(id):
         """Busca una bodega por su ID y devuelve la referencia si la encuentra."""
-        for bodega in Vinoteca.bodegas:
-            if bodega.id == id:
+        for bodega in Vinoteca.__bodegas:
+            if bodega._id == id:
                 return bodega
         return None
 
     def buscarCepa(id):
         """Busca una cepa por su ID y devuelve la referencia si la encuentra."""
-        for cepa in Vinoteca.cepas:
-            if cepa.id == id:
+        for cepa in Vinoteca.__cepas:
+            if cepa._id == id:
                 return cepa
         return None
 
     def buscarVino(id):
         """Busca un vino por su ID y devuelve la referencia si lo encuentra."""
-        for vino in Vinoteca.vinos:
-            if vino.id == id:
+        for vino in Vinoteca.__vinos:
+            if vino._id == id:
                 return vino
         return None
 
     def __parsearArchivoDeDatos():
         """Lee el archivo JSON y retorna un diccionario con los datos."""
-        if not os.path.exists(Vinoteca.archivoDeDatos):
+        if not os.path.exists(Vinoteca.__archivoDeDatos):
             return {}
-        with open(Vinoteca.archivoDeDatos, 'r') as archivo:
+        with open(Vinoteca.__archivoDeDatos, 'r') as archivo:
             return json.load(archivo)
 
-    def __convertirJsonAListas(lista):
+    def __convertirJsonAListas(datos):
         """Convierte los datos del JSON en objetos correspondientes."""
         # Convertir bodegas
-        if 'bodegas' in lista:
-            Vinoteca.bodegas = [Bodega(**bodega) for bodega in lista['bodegas']]
+        #if 'bodega' in lista:
+         #   Vinoteca.__bodegas = [Bodega(**bodega) for bodega in lista['bodega']]
+            
+        for bodega in datos["bodegas"]:
+            Vinoteca.__bodegas.append(Bodega(bodega["id"],bodega["nombre"]))
         
         # Convertir cepas
-        if 'cepas' in lista:
-            Vinoteca.cepas = [Cepa(**cepa) for cepa in lista['cepas']]
+        for cepa in datos["cepas"]:
+            Vinoteca.__cepas.append(Cepa(cepa["id"],cepa["nombre"]))
+        #if 'cepas' in lista:
+         #   Vinoteca.__cepas = [Cepa(**cepa) for cepa in lista['cepas']]
         
         # Convertir vinos
-        if 'vinos' in lista:
-            Vinoteca.vinos = [Vino(**vino) for vino in lista['vinos']]
+        for vino in datos["vinos"]:
+            Vinoteca.__vinos.append(Vino(vino["id"],vino["nombre"],vino["bodega"],vino["cepas"],vino["partidas"]))
+        #if 'vinos' in lista:
+         #   Vinoteca.__vinos = [Vino(**vino) for vino in lista['vinos']]

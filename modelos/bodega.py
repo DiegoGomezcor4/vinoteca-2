@@ -1,6 +1,8 @@
 import json
 from modelos.entidadvineria import EntidadVineria
-from vinoteca import Vinoteca
+from modelos.vino import Vino
+from modelos.cepa import Cepa
+
 
 
 class Bodega(EntidadVineria):
@@ -11,18 +13,26 @@ class Bodega(EntidadVineria):
         
     #agregando obenterVinos
     def obtenerVinos(self) -> list:
-        # obtiene todos los vinos asociados a esta bodega
-        return [Vinoteca.buscarVino(vino_id) for vino_id in self.vinos]
+        from vinoteca import Vinoteca
+        todos_los_vinos = Vinoteca.obtenerVinos()
+        vinos = []
+
+        for vino in todos_los_vinos:
+            bodega = vino.obtenerBodega()
+            if bodega and str(bodega._id) == str(self._id):  # Convierte ambos a str para compararlos
+                vinos.append(vino)
+
+        return vinos
+
 
     # agregando obtenerCepas
     def obtenerCepas(self):
-        """Obtiene las cepas asociadas a esta bodega a través de los vinos desde la clase Vinoteca."""
-        cepas = set()  # Usamos un set para evitar duplicados
-        for vino_id in self.vinos:
-            vino = Vinoteca.buscarVino(vino_id)
-            if vino:
-                cepas.update(vino.cepas)  # Añadimos los IDs de cepas del vino
-        return [Vinoteca.buscarCepa(cepa_id) for cepa_id in cepas]
+        from vinoteca import Vinoteca
+        vinos_de_la_bodega = self.obtenerVinos()
+        cepas = Vinoteca.obtenerCepas()
+        return cepas
+            
+        
 
 
     def __repr__(self):
@@ -53,3 +63,4 @@ class Bodega(EntidadVineria):
         vinos = self.obtenerVinos()
         vinosMapa = map(lambda a: a.obtenerNombre(), vinos)
         return list(vinosMapa)
+
