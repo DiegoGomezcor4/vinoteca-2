@@ -29,8 +29,12 @@ class Bodega(EntidadVineria):
     def obtenerCepas(self):
         from vinoteca import Vinoteca
         vinos_de_la_bodega = self.obtenerVinos()
-        cepas = Vinoteca.obtenerCepas()
-        return cepas
+        cepas_de_la_bodega = []
+        for vino in vinos_de_la_bodega:
+            for cepa in vino.obtenerCepas():
+                if cepa not in cepas_de_la_bodega:
+                    cepas_de_la_bodega.append(cepa)
+        return cepas_de_la_bodega
             
         
 
