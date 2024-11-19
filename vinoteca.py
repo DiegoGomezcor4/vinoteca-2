@@ -24,13 +24,13 @@ class Vinoteca:
         Vinoteca.__convertirJsonAListas(datos)
 
     def obtenerBodegas(orden=None, reverso=False):
-        """Devuelve una lista de bodegas ordenada segun el parametro orden"""
+        """Devuelve una lista de bodegas ordenada según el parámetro orden"""
         bodegas = Vinoteca.__bodegas
         if isinstance(orden, str):
             if orden == "nombre":
-                bodegas = sorted(bodegas, key=lambda bodega: bodega._nombre, reverse=reverso)
+                bodegas = sorted(bodegas, key=lambda bodega: bodega.obtenerNombre(), reverse=reverso)
             elif orden == "vinos":
-                bodegas = sorted(bodegas, key=lambda bodega: len(bodega._vinos), reverse=reverso)
+                bodegas = sorted(bodegas, key=lambda bodega: len(bodega.obtenerVinos()), reverse=reverso)
         return bodegas
 
     def obtenerCepas(orden=None, reverso=False):
@@ -38,7 +38,7 @@ class Vinoteca:
         cepas = Vinoteca.__cepas
         if isinstance(orden, str):
             if orden == "nombre":
-                cepas = sorted(cepas, key=lambda cepa: cepa.nombre, reverse=reverso)
+                cepas = sorted(cepas, key=lambda cepa: cepa.obtenerNombre(), reverse=reverso)
         return cepas
 
     def obtenerVinos(anio=None, orden=None, reverso=False, bodega_id=None):
