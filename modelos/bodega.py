@@ -19,7 +19,8 @@ class Bodega(EntidadVineria):
 
         for vino in todos_los_vinos:
             bodega = vino.obtenerBodega()
-            if bodega and str(bodega._id) == str(self._id):  # Convierte ambos a str para compararlos
+           # if bodega and str(bodega._id) == str(self._id):  # Convierte ambos a str para compararlos
+            if bodega == self:
                 vinos.append(vino)
 
         return vinos
